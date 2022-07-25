@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+from scipy.special import erfc
 plt.rcParams['font.size'] = 15
 plt.rcParams['axes.spines.right'] = False
 plt.rcParams['axes.spines.top'] = False
@@ -58,10 +59,16 @@ for iK in range(len(Ks)): #for each K
         R = R - np.mean(R, axis = 1, keepdims = True)
         #compute covariance matrix
         C = R.transpose(0,2,1) @ R
+
+        #compute dimensionality with traces
+        trs = np.trace(C, axis1=1, axis2=2)
+        dim = trs**2/np.sum(C**2, axis = (1,2))
+
         #compute eigenvalues
-        evals = np.linalg.eigvalsh(C)
+        #evals = np.linalg.eigvalsh(C)
         #compute dimensionality (participation ratio)
-        dim = np.sum(evals, axis = -1)**2 / np.sum(evals**2, axis = -1)
+        #dim = np.sum(evals, axis = -1)**2 / np.sum(evals**2, axis = -1)
+        
         #store result
         dims[iK, iinh] = np.mean(dim)
 
@@ -86,4 +93,10 @@ plt.yticks(range(7))
 plt.ylim(0, 6)
 plt.show()
 
-# %%
+# %% compute analytically with Gauss-Hermite quadrature
+
+# def f(y):
+#     a = 1/np.sqrt(2*np.pi)*0.25
+#     b = erfc((theta_i - eta_i*y) / np.sqrt(2*(sig_i**2 - eta_i**2)))
+#     c = erfc((theta_j - eta_j*y) / np.sqrt(2*(sig_j**2 - eta_j**2)))
+#     return a*b*c
