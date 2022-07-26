@@ -3,7 +3,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from scipy.special import erfc
+from scipy.special import erfc, erfcinv
+from numpy.polynomial.hermite import hermgauss
 plt.rcParams['font.size'] = 15
 plt.rcParams['axes.spines.right'] = False
 plt.rcParams['axes.spines.top'] = False
@@ -95,8 +96,58 @@ plt.show()
 
 # %% compute analytically with Gauss-Hermite quadrature
 
-# def f(y):
-#     a = 1/np.sqrt(2*np.pi)*0.25
-#     b = erfc((theta_i - eta_i*y) / np.sqrt(2*(sig_i**2 - eta_i**2)))
-#     c = erfc((theta_j - eta_j*y) / np.sqrt(2*(sig_j**2 - eta_j**2)))
-#     return a*b*c
+def f1(y, theta_i, theta_j, sig_i, sig_j, rho_ij):
+    eta_i = np.sqrt(np.abs(rho_ij)*sig_i/sig_j)
+    eta_j = np.sign(rho_ij)*np.sqrt(np.abs(rho_ij)*sig_j/sig_i)
+    a = 0.25
+    b = erfc((theta_i - eta_i*y) / np.sqrt(2*(sig_i**2 - eta_i**2)))
+    c = erfc((theta_j - eta_j*y) / np.sqrt(2*(sig_j**2 - eta_j**2)))
+    return a*b*c
+
+def f2(y):
+    a = 0.25
+    b = erfc((thetas - eta_is*y) / np.sqrt(2*(sigs**2 - eta_is**2)))
+    c = erfc((thetas.T - eta_js*y) / np.sqrt(2*(sigs.T**2 - eta_js**2)))
+    return a*b*c
+
+n_gh_locs = 15
+locs, ws = hermgauss(n_gh_locs)
+dims = np.zeros((len(Ms), 2)) #array for storing results
+tic = time.time() #count time
+for iK in range(1,len(Ks)): #for each K
+
+    K, M = Ks[iK], Ms[iK]
+    J = np.zeros((N, M)) #weight matrix
+    for i in range(M): #for each KC
+        #randomly sample an input weight vector (this could probs be parallelized)
+        J[np.random.choice(N, K, replace = False), i] = 1
+
+    for iinh in [0,1]:
+
+        if iinh == 1:
+            J = J - np.mean(J)
+
+        rho = J.T @ J
+        sigs = np.sqrt(np.sum(J**2, axis = 0))[:, None] #stds
+        eta_is = np.sqrt(np.abs(rho)*sigs/sigs.T)
+        eta_js = (np.sign(rho)*eta_is).T
+        thetas = np.sqrt(2)*sigs*erfcinv(2*f)
+
+
+        #H = f2(y)
+        #i, j = 1,2
+        #H_ij = f1(y, thetas[i,0],thetas[j,0],sigs[i,0],sigs[j,0],Ch[i,j])
+
+        fvals = f2(np.sqrt(2)*locs[:, None, None])
+        C = 1/np.sqrt(np.pi)*np.sum(ws[:, None, None]*fvals, axis = 0)
+
+        C -= f**2 #(mi-f)(mj-f) - f^2
+        C[rho >= (0.999 * sigs * sigs.T)] = f*(1-f)
+        C[rho == 0] = 0
+
+        dim = np.trace(C)**2/np.sum(C**2)
+        print(K, dim/N, time.time() - tic)
+
+        dims[iK, iinh] = dim
+
+# %%
