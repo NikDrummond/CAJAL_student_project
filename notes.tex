@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage[margin=0.7in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,bm}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage[table]{xcolor}
+\usepackage[colorlinks=true, linkcolor=dblue, citecolor=dred]{hyperref} 
+\usepackage[nameinlink]{cleveref}
+\usepackage{natbib}
+\usepackage{braket}
+\usepackage{url}
+\usepackage{lmodern}
+
+\definecolor{dred}{rgb}{0.6,0,0}
+\definecolor{dpurple}{HTML}{A020F0}
+\definecolor{dblue}{rgb}{0,0,0.6}
+\Crefname{equation}{Equation}{Equations}
+\Crefname{figure}{Figure}{Figures}
+\creflabelformat{equation}{#2#1#3}
+\crefrangelabelformat{equation}{#3#1#4-#5#2#6}
+
+\renewcommand\b\bm
+
+\begin{document}
+
+\begin{equation}
+    C_{ii} = var(m_i) = f (1-f)
+\end{equation}
+
+\begin{align}
+    dim &= \frac{(\sum_i \lambda_i)^2}{\sum_i \lambda_i^2}\\
+    &= \frac{tr(\b{C})^2}{tr(\b{C} \b{C})}\\
+    &= \frac{tr(\b{C})^2}{\sum_{ij}C_{ij}^2}\\
+    &= \frac{(M f (1-f))^2}{M f^2 (1-f)^2 + \sum_{i \neq j} C_{ij}^2}\\
+    &\approx \frac{M^2 f^2 (1-f)^2}{M f^2 (1-f)^2 + M (M-1) \braket{C_{i \neq j}^2}}\\
+    &= \frac{M}{1 + (M-1)f^{-2}(1-f)^{-2}\braket{C_{i \neq j}^2}}.
+\end{align}
+
+Define $\b{\Sigma} = \b{J}^T \b{J}$ and $\b{z}_{ij} = [z_i; z_j] \sim \mathcal{N}(\b{z}, \b{\mu} = 0, \b{\Sigma}[i;j, i;j] ) $.
+\begin{align}
+    C_{ij} &= \braket{m_i m_j} - f^2\\
+    &= p(z_i > \theta_i \cup  z_j > \theta_j) - f^2\\
+    &= \int_{z_i = \theta_i} \left [ \int_{z_j = \theta_j} p(z_j| z_i) dz_j \right ] p(z_i) dz_i.
+\end{align}
+
+Define $S_{ij} = s_{ij}^2 = \braket{(\b{j}_i^T \b{x})^T (\b{j}_j^T \b{x})}$ as the output correlation before the nonlinearity.
+Can we make a convexity argument about $\braket{C_{ij}^2}$ and $\braket{S_{ij}^2}$ and apply Jensen's inequality?
+This would be useful since we can analytically compute $\braket{S_{ij}^2}$:
+\begin{align}
+    \braket{S_{ij}^2} &= \int S^2 p(\rho|\b{j}_1, \b{j}_2) p(\b{j}_1) p(\b{j}_2) dS d\b{j}_1 d\b{j}_2\\
+    &= \int (\b{j}_1^T \b{j}_2)^2 p(\b{j}_1) p(\b{j}_2) d\b{j}_1 d\b{j}_2\\
+    &= \int (\b{j}_1^T \b{j}_2)^2 p(\b{j}_1|K_1) p(\b{j}_2|K_2) d\b{j}_1 d\b{j}_2 dK_1 dK_2\\
+    &= \int S(O; K_1, K_2)^2 p(O|K_1, K_2) p(K_1) p(K_2) dO dK_1 dK_2\\
+    &= \int S(O; K_1, K_2)^2 Hypergeom(N, K_1, K_2, O) p(K_1) p(K_2) dO dK_1 dK_2,
+\end{align}
+where 
+\begin{equation}
+    S(O; K_1, K_2) = O j_+^2 + (K_1 + K_2 - 2O) j_- j_+ + (N - K_1 - K_2 + O) j_-^2
+\end{equation}
+with $j_+ = 1 - \bar{J}$ and $j_- = 0 - \bar{J}$ in the presence of inhibition.
+
+
+\end{document}

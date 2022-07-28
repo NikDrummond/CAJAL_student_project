@@ -133,11 +133,6 @@ for iK in range(1,len(Ks)): #for each K
         eta_js = (np.sign(rho)*eta_is).T
         thetas = np.sqrt(2)*sigs*erfcinv(2*f)
 
-
-        #H = f2(y)
-        #i, j = 1,2
-        #H_ij = f1(y, thetas[i,0],thetas[j,0],sigs[i,0],sigs[j,0],Ch[i,j])
-
         fvals = f2(np.sqrt(2)*locs[:, None, None])
         C = 1/np.sqrt(np.pi)*np.sum(ws[:, None, None]*fvals, axis = 0)
 
