@@ -56,10 +56,47 @@ This would be useful since we can analytically compute $\braket{S_{ij}^2}$:
     &= \int S(O; K_1, K_2)^2 Hypergeom(N, K_1, K_2, O) p(K_1) p(K_2) dO dK_1 dK_2,
 \end{align}
 where 
-\begin{equation}
-    S(O; K_1, K_2) = O j_+^2 + (K_1 + K_2 - 2O) j_- j_+ + (N - K_1 - K_2 + O) j_-^2
-\end{equation}
+\begin{align}
+    S(O; K_1, K_2) &= O j_+^2 + (K_1 + K_2 - 2O) j_- j_+ + (N - K_1 - K_2 + O) j_-^2\\
+    &= O(f_+^2 + f_-^2 - 2 f_+ f_-) + (K_1 + K_2)(f_+ f_- - f_-^2)+Nf_-\\
+    &:= \alpha O + \beta
+\end{align}
 with $j_+ = 1 - \bar{J}$ and $j_- = 0 - \bar{J}$ in the presence of inhibition.
+Now
+\begin{equation}
+    S(O; K_1, K_2)^2 = \alpha^2 O^2 + 2O \alpha \beta + \beta^2.
+\end{equation}
+We now note that
+\begin{equation}
+    \int O Hypergeom(N, K_1, K_2, O) dO = K_1 K_2 / N
+\end{equation}
+and
+\begin{equation}
+    \int O^2 Hypergeom(N, K_1, K_2, O) dO = 
+    N^{-2} \left ( (K_1 K_2)^2 + \frac{K_1 K_2 (N-K_1) (N-K_2)}{N-1} \right ) := \gamma.
+\end{equation}
+This leads to
+\begin{align}
+    \braket{S_{ij}^2}
+    &= \int (\alpha^2 \gamma + 2\alpha \beta K_1 K_2/N + \beta^2 ) p(K_1) p(K_2) dK_1 dK_2.
+\end{align}
+We now treat these terms one at a time, noting that $\alpha = (f_+^2 + f_-^2 - 2 f_+ f_-)$ does not depend on $K$ and defining $\beta = (K_1 + K_2)(f_+ f_- - f_-^2)+Nf_- := (K_1+K_2)\delta + \epsilon$.
+\begin{align}
+    I_1 &:= \int (\alpha^2 \gamma) p(K_1) p(K_2) dK_1 dK_2\\
+    &= \alpha^2 \int \gamma p(K_1) p(K_2) dK_1 dK_2\\
+    &= \alpha^2 N^{-2} \left ( \braket{K^2}^2 + (N-1)^{-1} (\braket{K}^2 N^2 + \braket{K^2}^2 - 2 N \braket{K} \braket{K^2}) \right )
+\end{align}
 
+\begin{align}
+    I_2 &:= \int (2\alpha \beta K_1 K_2/N) p(K_1) p(K_2) dK_1 dK_2\\
+    &= 2\alpha/N \int (((K_1+K_2)\delta + \epsilon) K_1 K_2) p(K_1) p(K_2) dK_1 dK_2\\
+    &=2\alpha/N \left ( \epsilon \braket{K}^2 + 2 \delta \braket{K}\braket{K^2} \right )
+\end{align}
+
+\begin{align}
+    I_3 &:= \int \beta^2 p(K_1) p(K_2) dK_1 dK_2\\
+    &= \int ((K_1+K_2)\delta + \epsilon)^2 p(K_1) p(K_2) dK_1 dK_2\\
+    &= \epsilon^2 + 4 \epsilon \delta \braket{K} + 2 \delta (\braket{K}^2 + \braket{K^2}).
+\end{align}
 
 \end{document}
