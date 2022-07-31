@@ -58,13 +58,15 @@ This would be useful since we can analytically compute $\braket{S_{ij}^2}$:
 where 
 \begin{align}
     S(O; K_1, K_2) &= O j_+^2 + (K_1 + K_2 - 2O) j_- j_+ + (N - K_1 - K_2 + O) j_-^2\\
-    &= O(f_+^2 + f_-^2 - 2 f_+ f_-) + (K_1 + K_2)(f_+ f_- - f_-^2)+Nf_-\\
-    &:= \alpha O + \beta
+    &= O(j_+^2 + j_-^2 - 2 j_+ j_-) + (K_1 + K_2)(j_+ j_- - j_-^2)+Nj_-^2\\
+    &= O (j_+ - j_-)^2 + (K_1 + K_2)((1- \mu_j)(-\mu_j) - (-\mu_j)^2) + N \mu_j^2\\
+    &= O(1 - \mu_j + \mu_j) - \mu_j (K_1 + K_2) + \mu_j^2 N
+    &:= O + \beta
 \end{align}
-with $j_+ = 1 - \bar{J}$ and $j_- = 0 - \bar{J}$ in the presence of inhibition.
+with $j_+ = 1 - \mu_j$ and $j_- = 0 - \mu_j$ in the presence of inhibition.
 Now
 \begin{equation}
-    S(O; K_1, K_2)^2 = \alpha^2 O^2 + 2O \alpha \beta + \beta^2.
+    S(O; K_1, K_2)^2 = O^2 + 2O \beta + \beta^2.
 \end{equation}
 We now note that
 \begin{equation}
@@ -78,25 +80,40 @@ and
 This leads to
 \begin{align}
     \braket{S_{ij}^2}
-    &= \int (\alpha^2 \gamma + 2\alpha \beta K_1 K_2/N + \beta^2 ) p(K_1) p(K_2) dK_1 dK_2.
+    &= \int (\gamma + 2\beta K_1 K_2/N + \beta^2 ) p(K_1) p(K_2) dK_1 dK_2.
 \end{align}
-We now treat these terms one at a time, noting that $\alpha = (f_+^2 + f_-^2 - 2 f_+ f_-)$ does not depend on $K$ and defining $\beta = (K_1 + K_2)(f_+ f_- - f_-^2)+Nf_- := (K_1+K_2)\delta + \epsilon$.
+We now treat these terms one at a time, remembering that $\beta = N \mu_j^2 - \mu_j (K_1 + K_2)$, noting that $\mu_j = \frac{\braket{K}}{N} := \frac{\mu_k}{N}$, and denoting $v_k := \braket{K^2}$.
 \begin{align}
     I_1 &:= \int (\alpha^2 \gamma) p(K_1) p(K_2) dK_1 dK_2\\
-    &= \alpha^2 \int \gamma p(K_1) p(K_2) dK_1 dK_2\\
-    &= \alpha^2 N^{-2} \left ( \braket{K^2}^2 + (N-1)^{-1} (\braket{K}^2 N^2 + \braket{K^2}^2 - 2 N \braket{K} \braket{K^2}) \right )
+    &= \int \gamma p(K_1) p(K_2) dK_1 dK_2\\
+    &= \braket{K^2}^2/N^2 + (N-1)^{-1} (\braket{K}^2 + \braket{K^2}^2/N^2 - 2 \braket{K} \braket{K^2} / N)\\
+    &= \frac{\braket{K^2}^2}{N (N-1)} + \frac{\braket{K}^2}{N-1} - 2 \frac{\braket{K} \braket{K^2}}{N (N-1)}\\
+    &= \frac{v_k^2}{N (N-1)} + \frac{\mu_k^2}{N-1} - 2 \frac{\mu_k v_k}{N (N-1)}
 \end{align}
 
 \begin{align}
-    I_2 &:= \int (2\alpha \beta K_1 K_2/N) p(K_1) p(K_2) dK_1 dK_2\\
-    &= 2\alpha/N \int (((K_1+K_2)\delta + \epsilon) K_1 K_2) p(K_1) p(K_2) dK_1 dK_2\\
-    &=2\alpha/N \left ( \epsilon \braket{K}^2 + 2 \delta \braket{K}\braket{K^2} \right )
+    I_2 &:= \int (2\beta K_1 K_2/N) p(K_1) p(K_2) dK_1 dK_2\\
+    &= 2/N \int ((-\mu_j (K_1+K_2) + N \mu_j^2) K_1 K_2) p(K_1) p(K_2) dK_1 dK_2\\
+    &=2/N \left ( N \mu_j^2 \braket{K}^2 - 2 \mu_j \braket{K}\braket{K^2} \right )\\
+    &= 2 \mu_j^2 \braket{K}^2 - 4 \frac{\mu_j \braket{K}\braket{K^2}}{N}\\
+    &= 2 \frac{\mu_k^4}{N^2} - 4 \frac{\mu_k^2 v_k}{N^2}\\
+    &= 2 \frac{\mu_k^2}{N^2}(\mu_k^2 - 2 v_k) 
 \end{align}
 
 \begin{align}
     I_3 &:= \int \beta^2 p(K_1) p(K_2) dK_1 dK_2\\
-    &= \int ((K_1+K_2)\delta + \epsilon)^2 p(K_1) p(K_2) dK_1 dK_2\\
-    &= \epsilon^2 + 4 \epsilon \delta \braket{K} + 2 \delta (\braket{K}^2 + \braket{K^2}).
+    &= \int (N \mu_j^2 - \mu_j (K_1+K_2))^2 p(K_1) p(K_2) dK_1 dK_2\\
+    &= N^2 \mu_j^4 - 4 N \mu_j^3 \braket{K} + 2 \mu_j^2 (\braket{K}^2 + \braket{K^2})\\
+    &= \frac{\mu_k^4}{N^2} - 4 \frac{\mu_k^4}{N^2} + 2 \frac{\mu_k^4 + \mu_k^2 v_k}{N^2}\\
+    &= \frac{\mu_k^2}{N^2}(2 v_k - \mu_k^2)
 \end{align}
+
+This gives us
+\begin{align}
+    \braket{S_ij^2} &= I_1 + I_2 + I_3\\
+    &= \frac{v_k^2}{N (N-1)} + \frac{\mu_k^2}{N-1} - 2 \frac{\mu_k v_k}{N (N-1)} + 2 \frac{\mu_k^2}{N^2}(\mu_k^2 - 2 v_k) + \frac{\mu_k^2}{N^2}(2 v_k - \mu_k^2)\\
+    &= \frac{v_k^2}{N (N-1)} + \frac{\mu_k^2}{N-1} - 2 \frac{\mu_k v_k}{N (N-1)} + \frac{\mu_k^4}{N^2} - 2 \frac{\mu_k^2}{N^2} v_k.
+\end{align}
+
 
 \end{document}
