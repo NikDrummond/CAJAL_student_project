@@ -145,7 +145,12 @@ and
 
 This allows us to compute the input dimensionality
 \begin{align}
-    dim &= \frac{M \braket{S_{ii}}^2}{\braket{S_{ii}^2} + (M-1) \braket{S_{ij}^2}}
+    dim &= \frac{M \braket{S_{ii}}^2}{\braket{S_{ii}^2} + (M-1) \braket{S_{ij}^2}}.
 \end{align}
+
+Since $\braket{S_{ii}}^2$ does not depend on $v_k$, the dimensionality is minimized when the denominator is maximized, which happens when
+\begin{equation}
+    v_k - \mu_k^2 = \mu_k ( 1 - \frac{\mu_k}{N}) - N(N-1)/(M-1) (1 + 4 \mu_k^2 / N^2 - 4 \mu_k/N).
+\end{equation}
 
 \end{document}
