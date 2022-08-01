@@ -37,8 +37,11 @@ def __constantK__(params, rng, J, M):
     return J
 
 def __stepK__(params, rng, J, M):
+    assert params['K'] >= params['stepK']
+    Kvals = [params['K'] - params['stepK'], params['K'] + params['stepK'], params['K']]
+    pvals = np.array([params['stepP'], 2*params['stepP'], np.inf])
     for i in range(M):
-        Ki = params['K'] + params['stepK']*((i%3)-1) # change K between 3 values: [K-stepK, K, K+stepK]
+        Ki = Kvals[int(np.sum(rng.uniform() > pvals))]
         J[rng.choice(params['N'], Ki, replace=False), i] = 1
     return J
 
@@ -85,13 +88,14 @@ def run_model(params, J, X):
     sigs = np.sqrt(np.sum(J**2, axis=0, keepdims=True))
     thresholds = np.sqrt(2)*sigs*erfcinv(2*params['f'])
     rates = 0.5*np.sign(H - thresholds) + 0.5
-    rates -= np.mean(rates, axis=0, keepdims=True)
     return rates
 
 def get_dimM(rates):
-    C = np.cov(rates)
+    #C = np.cov(rates)
+    rates -= np.mean(rates, axis=0, keepdims=True)
+    C = rates.T @ rates
     trC = np.trace(C)
-    dim = trC**2/np.sum(C*C)
+    dim = trC**2/np.sum(C**2)
     return dim
 
 def simulate(params, distribution):
