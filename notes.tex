@@ -110,10 +110,42 @@ We now treat these terms one at a time, remembering that $\beta = N \mu_j^2 - \m
 
 This gives us
 \begin{align}
-    \braket{S_ij^2} &= I_1 + I_2 + I_3\\
+    \braket{S_{ij}^2} &= I_1 + I_2 + I_3\\
     &= \frac{v_k^2}{N (N-1)} + \frac{\mu_k^2}{N-1} - 2 \frac{\mu_k v_k}{N (N-1)} + 2 \frac{\mu_k^2}{N^2}(\mu_k^2 - 2 v_k) + \frac{\mu_k^2}{N^2}(2 v_k - \mu_k^2)\\
     &= \frac{v_k^2}{N (N-1)} + \frac{\mu_k^2}{N-1} - 2 \frac{\mu_k v_k}{N (N-1)} + \frac{\mu_k^4}{N^2} - 2 \frac{\mu_k^2}{N^2} v_k.
 \end{align}
 
+We can take the derivative of this result to find the optimum:
+\begin{align}
+    \frac{\partial \braket{S_{ij}^2}}{\partial v_k} &= 
+    2 \frac{v_k}{N (N-1)} - 2 \frac{\mu_k}{N (N-1)} - 2 \frac{\mu_k^2}{N^2}\\
+    &\propto v_k - \mu_k - \mu_k^2 + \frac{\mu_k^2}{N}.
+\end{align}
+We see that this is zero, and the correlation thus optimized, when the variance is
+\begin{equation}
+    v_k - \mu_k^2 = \mu_k ( 1 - \frac{\mu_k}{N}).
+\end{equation}
+
+We can also note that
+\begin{align}
+    \braket{S_{ii}} &= \braket{\b{j}_i^T \b{j}_i}\\
+    &= \braket{K j_+^2 + (N-K) j_-^2}\\
+    &= \braket{K (1 + \mu_j^2 - 2 \mu_j)  + N \mu_j^2 - K \mu_j^2}\\
+    &= \braket{K - 2 K \mu_k/N + \mu_k^2/N}\\
+    &= \mu_k - 2 \mu_k^2/N + \mu_k^2 / N\\
+    &= \mu_k (1 - \mu_k / N)
+\end{align}
+and
+\begin{align}
+    \braket{S_{ii}^2} &= \braket{(K(1 - 2 \mu_k/N) + \mu_k^2/N)^2}\\
+    &= \braket{K^2(1 + 4 \mu_k^2 / N^2 - 4 \mu_k/N) + \mu_k^4/N^2 + 2 K (\mu_k^2/N - 2 \mu_k^3/N^2)}\\
+    &= v_k(1 + 4 \mu_k^2 / N^2 - 4 \mu_k/N) + \mu_k^4/N^2 + 2 \mu_k^3/N - 4 \mu_k^4/N^2\\
+    &= v_k(1 + 4 \mu_k^2 / N^2 - 4 \mu_k/N) + 2 \mu_k^3/N - 3 \mu_k^4/N^2.
+\end{align}
+
+This allows us to compute the input dimensionality
+\begin{align}
+    dim &= \frac{M \braket{S_{ii}}^2}{\braket{S_{ii}^2} + (M-1) \braket{S_{ij}^2}}
+\end{align}
 
 \end{document}
