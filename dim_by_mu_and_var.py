@@ -28,7 +28,7 @@ for ik, K in enumerate(Ks):
             print('new K', K, pval, dims[ik, ip, :, 0])
 
 #%% save data
-result = {'Ks': Ks, 'ps': ps, 'dims': dims}
+result = {'Ks': Ks, 'ps': ps, 'dims': dims, 'params': params}
 
 pickle.dump(result, open('results/dim_by_mu_and_var.p', 'wb'))
 #%% plot some stuff

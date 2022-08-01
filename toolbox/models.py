@@ -39,7 +39,7 @@ def __constantK__(params, rng, J, M):
 def __stepK__(params, rng, J, M):
     assert params['K'] >= params['stepK']
     Kvals = [params['K'] - params['stepK'], params['K'] + params['stepK'], params['K']]
-    pvals = np.array([params['stepP'], 2*params['stepP'], np.inf])
+    pvals = np.array([params['stepP']/2, params['stepP'], np.inf])
     for i in range(M):
         Ki = Kvals[int(np.sum(rng.uniform() > pvals))]
         J[rng.choice(params['N'], Ki, replace=False), i] = 1
