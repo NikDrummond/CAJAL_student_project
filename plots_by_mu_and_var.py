@@ -37,7 +37,7 @@ for iK in plotis:
 plt.xlabel('p')
 plt.ylabel('Dimensionality')
 plt.title('Mushroom body', pad = 20)
-#plt.ylim(5.5, 5.7)
+plt.ylim(5.5, 5.7)
 plt.legend()
 plt.show()
 
