@@ -80,7 +80,12 @@ def __lognormalK__(params, rng, J, M):
 
 
 def get_input(params, rng):
-    X = rng.normal(0, 1, (params['T'], params['N']))
+    N = params['N']
+    X = rng.normal(0, 1, (params['T'], N))
+    if params['correlated']: #correlated inputs
+        K = np.exp((np.arange(N)[:, None] - np.arange(N)[None, :])**2 / (2*params['corr_ell']**2))
+        L = np.linalg.cholesky(K)
+        X = L @ X
     return X
 
 def run_model(params, J, X):

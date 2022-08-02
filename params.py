@@ -8,4 +8,6 @@ params = {"N": 50,
             "binomial_p": 0.4,
             "gaussian_stdK": 1,
             "lognormal_stdK": 1,
-            "reps": 3}
+            "reps": 3,
+            "correlated": False,
+            "corr_ell": 5}
