@@ -1,3 +1,5 @@
+#%% load stuff
+ 
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
@@ -24,7 +26,7 @@ def get_dim(C):
 #%% run some simulations
 
 S = 14000
-rep = 20
+rep = 200
 N = 50
 
 Ks = np.array([5,6,8,10,12,14,16,18])
@@ -46,6 +48,9 @@ for iK, K in enumerate(Ks):
       print(K, p, np.nanmean(C), np.nanvar(C), dims_K[-1][-1])
     vars_K[-1].append(np.nanvar(C))
 
-result = {'Ks': Ks, 'ps': ps, 'dims_K': dims_K, 'vars_K': vars_K, 'incval': incval}
+result = {'Ks': Ks, 'ps': ps, 'dims_K': dims_K, 'vars_K': vars_K, 'incval': incval,
+            'Ms': Ms, 'N': N, 'S': S}
 pickle.dump(result, open('results/analytical_dims.p', 'wb'))
 
+
+# %%

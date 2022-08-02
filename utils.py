@@ -11,12 +11,12 @@ def get_Sii_2(mu, var, N):
   return S_ii_2
 
 def get_anal_dim(mu, var, N, approx = True, M = None):
-  S_ij_2 = get_anal_rho(mu, var)
+  S_ij_2 = get_anal_rho(mu, var, N)
   S_ii = mu*(1 - mu/N)
   if approx: #large M limit
     dim = S_ii**2 / S_ij_2
   else:
-    S_ii_2 = get_Sii_2(mu, var)
+    S_ii_2 = get_Sii_2(mu, var, N)
     dim = M*S_ii**2 / (S_ii_2 + (M-1) * S_ij_2)
   return dim
 

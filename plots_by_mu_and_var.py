@@ -45,6 +45,7 @@ plt.show()
 
 vars = ps*incval**2
 mus = np.array(Ks)
+dv = (vars[1] - vars[0])/2
 
 norm_dims = (dims[..., 1, 0] / dims[:, :1, 1, 0]) #mean by var
 nonorm = dims[..., 1, 0]
@@ -61,7 +62,7 @@ plt.colorbar()
 plt.show()
 
 plt.figure()
-plt.imshow(nonorm, cmap = 'viridis', aspect = 'auto', extent = (vars[0], vars[-1], mus[-1], mus[0]),
+plt.imshow(nonorm, cmap = 'viridis', aspect = 'auto', extent = (vars[0]-dv, vars[-1]+dv, mus[-1]-0.5, mus[0]-0.5),
             vmin = 0.95*np.nanmax(nonorm), vmax = np.nanmax(nonorm))
 plt.xlabel('variance')
 plt.ylabel('mean')
