@@ -6,14 +6,15 @@ import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 from params import params
+import sys
 
 #%% run some comps
 
-params['reps'] = 5
+params['reps'] = 50
 params['stepK'] = 4
 distribution = 'step'
 Ks = np.arange(5,18)
-ps = np.linspace(0, 1, 11)
+ps = np.linspace(0, 1, 51)
 
 dims = np.zeros((len(Ks), len(ps), 2, 2))
 
@@ -26,11 +27,12 @@ for ik, K in enumerate(Ks):
         dims[ik,ip,:,1] = np.std(dim_all, axis=0)
         if ik % 3 == 0 and ip % 3 == 0:
             print('new K', K, pval, dims[ik, ip, :, 0])
+            sys.stdout.flush()
 
 #%% save data
 result = {'Ks': Ks, 'ps': ps, 'dims': dims, 'params': params}
-
 pickle.dump(result, open('results/dim_by_mu_and_var.p', 'wb'))
+
 #%% plot some stuff
 cols = ['k', 'r']
 labels = ['no inhibition', 'inhibition']
