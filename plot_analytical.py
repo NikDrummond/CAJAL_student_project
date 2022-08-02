@@ -66,12 +66,12 @@ plt.show()
 mus = np.linspace(1, 16, 101)
 vars = np.linspace(0, 14, 91)
 
-all_dims = np.array([get_anal_dim(mus[i], vars, M = S/mus[i], approx = False) for i in range(len(mus))]) #mu by var
+all_dims = np.array([get_anal_dim(mus[i], vars, N, M = S/mus[i], approx = False) for i in range(len(mus))]) #mu by var
 all_dims[vars[None, :] > mus[:, None]**2] = np.nan
 plt.figure()
 plt.imshow(all_dims, cmap = 'viridis', aspect = 'auto', vmin = 0.95*np.nanmax(all_dims),
            vmax = np.nanmax(all_dims), extent = (vars[0], vars[-1], mus[-1], mus[0]))
-plt.plot(get_opt_dim_var(mus, S/mus), mus, 'k-')
+plt.plot(get_opt_dim_var(mus, S/mus, N), mus, 'k-')
 plt.xlabel('variance')
 plt.ylabel('mean')
 plt.colorbar()
@@ -79,3 +79,5 @@ plt.show()
 
 print(np.nanmax(all_dims))
 print(np.where(all_dims == np.nanmax(all_dims)))
+
+# %%
