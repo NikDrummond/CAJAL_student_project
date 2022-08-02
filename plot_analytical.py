@@ -65,6 +65,7 @@ plt.show()
 
 mus = np.linspace(1, 16, 101)
 vars = np.linspace(0, 14, 91)
+S = 8531
 
 all_dims = np.array([get_anal_dim(mus[i], vars, N, M = S/mus[i], approx = False) for i in range(len(mus))]) #mu by var
 all_dims[vars[None, :] > mus[:, None]**2] = np.nan
