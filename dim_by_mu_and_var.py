@@ -10,10 +10,10 @@ import sys
 
 #%% run some comps
 
-params['reps'] = 50
-params['stepK'] = 4
+params['reps'] = 200
+params['stepK'] = 3
 distribution = 'step'
-Ks = np.arange(5,18)
+Ks = np.arange(3,13)
 ps = np.linspace(0, 1, 51)
 
 dims = np.zeros((len(Ks), len(ps), 2, 2))

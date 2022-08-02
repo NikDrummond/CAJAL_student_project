@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 import sys
+from params import params
 
 #%% define a function for sampling weights 
 def get_J_var(K, N, M, rep, p = 0.2, inc = 1):
@@ -26,16 +27,16 @@ def get_dim(C):
 
 #%% run some simulations
 
-S = 14000
+S = params['S']
+N = params['N']
 rep = 1000
-N = 50
 
-Ks = np.array([5,6,8,10,12,14,16,18])
+Ks = np.array([3,4,6,8,10,12])
 Ms = np.round(S/Ks).astype(int)
 ps = np.linspace(0, 1.0, 21)
 vars_K = []
 dims_K = []
-incval = 4
+incval = 3
 for iK, K in enumerate(Ks):
   vars_K.append([])
   dims_K.append([])

@@ -83,9 +83,9 @@ def get_input(params, rng):
     N = params['N']
     X = rng.normal(0, 1, (params['T'], N))
     if params['correlated']: #correlated inputs
-        K = np.exp((np.arange(N)[:, None] - np.arange(N)[None, :])**2 / (2*params['corr_ell']**2))
-        L = np.linalg.cholesky(K)
-        X = L @ X
+        K = np.exp(-(np.arange(N)[:, None] - np.arange(N)[None, :])**2 / (2*params['corr_ell']**2))
+        L = np.linalg.cholesky(K+np.eye(N)*1e-6)
+        X = X @ L.T
     return X
 
 def run_model(params, J, X):
