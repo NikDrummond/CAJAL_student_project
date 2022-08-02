@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
+import sys
 
 #%% define a function for sampling weights 
 def get_J_var(K, N, M, rep, p = 0.2, inc = 1):
@@ -26,7 +27,7 @@ def get_dim(C):
 #%% run some simulations
 
 S = 14000
-rep = 200
+rep = 1000
 N = 50
 
 Ks = np.array([5,6,8,10,12,14,16,18])
@@ -46,6 +47,7 @@ for iK, K in enumerate(Ks):
     C[:, np.arange(C.shape[1]), np.arange(C.shape[2])] = np.nan
     if K % 4 == 2 and ip % 3 == 0:
       print(K, p, np.nanmean(C), np.nanvar(C), dims_K[-1][-1])
+      sys.stdout.flush()
     vars_K[-1].append(np.nanvar(C))
 
 result = {'Ks': Ks, 'ps': ps, 'dims_K': dims_K, 'vars_K': vars_K, 'incval': incval,
