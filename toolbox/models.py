@@ -72,7 +72,7 @@ def __gaussianK__(params, rng, J, M):
 def __lognormalK__(params, rng, J, M):
     for i in range(M):
         Ki = np.floor(rng.lognormal(params['K'], params['lognormal_stdK'], 1)).astype(int)       # the parameter K is the mean, lognormal_stdK is the standard dev
-        while Ki < 0:                                                                            # to remove negative indegree values
+        while Ki > params['N']:                                                                            # to remove negative indegree values
             Ki = np.floor(rng.lognormal(params['K'], params['lognormal_stdK'], 1)).astype(int)
         J[rng.choice(params['N'], Ki, replace=False), i] = 1
     return J
@@ -103,10 +103,18 @@ def get_dimM(rates):
     dim = trC**2/np.sum(C**2)
     return dim
 
-def simulate(params, distribution):
+def get_statK(params, J):
+    indegreeJ = np.sum(J, axis=0)
+    meanK = np.mean(indegreeJ)
+    varK = np.var(indegreeJ)
+    stdK = np.std(indegreeJ)
+    return [meanK, varK, stdK]
+
+def simulate(params, distribution, return_statK=False):
     
     # run for multiple trials, inh vs no inh
     dims = np.zeros((params['reps'], 2))
+    stat = np.zeros((params['reps'], 2, 3))
 
     for rp in range(params['reps']):
         for iinh in range(2):
@@ -116,4 +124,10 @@ def simulate(params, distribution):
             rates = run_model(params, J, X)
             dims[rp, iinh] = get_dimM(rates)/params['N']
 
-    return dims
+            if return_statK:
+                stat[rp, iinh, :] = get_statK(params, J)
+
+    if return_statK:
+        return dims, stat
+    else:
+        return dims
