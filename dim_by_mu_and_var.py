@@ -10,10 +10,11 @@ import sys
 
 #%% run some comps
 
-params['reps'] = 200
+params['reps'] = 150
 params['stepK'] = 3
+params['variable'] = True
 distribution = 'step'
-Ks = np.arange(3,13)
+Ks = np.arange(3,19)
 ps = np.linspace(0, 1, 51)
 
 dims = np.zeros((len(Ks), len(ps), 2, 2))
@@ -31,7 +32,7 @@ for ik, K in enumerate(Ks):
 
 #%% save data
 result = {'Ks': Ks, 'ps': ps, 'dims': dims, 'params': params}
-pickle.dump(result, open('results/dim_by_mu_and_var.p', 'wb'))
+pickle.dump(result, open('results/dim_by_mu_and_var_var.p', 'wb'))
 
 #%% plot some stuff
 cols = ['k', 'r']

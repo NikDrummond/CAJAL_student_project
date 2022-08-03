@@ -17,6 +17,7 @@ params['S'] = 8531
 Ks = np.arange(3, 12, 1)
 dimKs = np.zeros((len(Ks), 2, 2))
 params['reps'] = 2
+params["variable"] = True
 for ik, K in enumerate(Ks):
     print('new K', K)
     params['K'] = K

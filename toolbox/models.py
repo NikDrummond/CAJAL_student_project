@@ -89,7 +89,7 @@ def get_input(params, rng):
         X = X @ L.T
     elif params['variable']:
         Gs = pickle.load(open('./results/Gs.p', 'rb'))
-        X = X * Gs[None, :]
+        X = X * np.sqrt(Gs[None, :])
     return X
 
 def run_model(params, J, X):
