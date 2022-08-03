@@ -13,12 +13,14 @@ lin_dim, nonlin_dim, lins, nonlins = [result[k] for k in ['lin_dim', 'nonlin_dim
 
 # %%
 for dat in [(nonlins, nonlin_dim), (lins, lin_dim)]:
-    plt.figure()
-    plt.hist(dat[0], bins = 10)
-    plt.axvline(dat[1], color = 'k')
-    plt.show()
+    for i in range(2):
+        plt.figure()
+        plt.hist(dat[0][:, i], bins = 10)
+        plt.axvline(dat[1], color = 'k')
+        plt.show()
 
 # %% try decorrelating J
+# what is the inpur covariance that would be optimally decorrelated by the experimentally observed J?
 
 J_G = np.load('niks_crap/glom_J.npy')
 C = J_G @ J_G.T

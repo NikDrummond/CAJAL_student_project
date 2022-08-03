@@ -10,4 +10,5 @@ params = {"N": 50,
             "lognormal_stdK": 1,
             "reps": 3,
             "correlated": False,
-            "corr_ell": 2}
+            "corr_ell": 2,
+            "variable": False}

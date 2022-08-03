@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import time
 from scipy.special import erfc, erfcinv
 from numpy.polynomial.hermite import hermgauss
+import pickle
 
 def get_J(params, rng, distribution, inh_flag):
  
@@ -86,6 +87,9 @@ def get_input(params, rng):
         K = np.exp(-(np.arange(N)[:, None] - np.arange(N)[None, :])**2 / (2*params['corr_ell']**2))
         L = np.linalg.cholesky(K+np.eye(N)*1e-6)
         X = X @ L.T
+    elif params['variable']:
+        Gs = pickle.load(open('./results/Gs.p', 'rb'))
+        X = X * Gs[None, :]
     return X
 
 def run_model(params, J, X):
