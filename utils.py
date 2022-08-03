@@ -25,3 +25,4 @@ def get_opt_var(mu, N):
 
 def get_opt_dim_var(mu, M, N):
   return get_opt_var(mu, N) - N*(N-1)/(2*M-2) * (1 + 4*(mu**2/N**2) - 4*mu/N)
+
