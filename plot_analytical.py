@@ -63,15 +63,16 @@ plt.ylabel('optimal variance (dim)')
 plt.show()
 # %% plot energy landscapes
 
-mus = np.linspace(1, 16, 101)
-vars = np.linspace(0, 14, 91)
+mus = np.linspace(3, 12, 101)
+vars = np.linspace(0, 9, 91)
 S = 8531
+dv, dm = (vars[1] - vars[0])/2, (mus[1] - mus[0])/2
 
 all_dims = np.array([get_anal_dim(mus[i], vars, N, M = S/mus[i], approx = False) for i in range(len(mus))]) #mu by var
 all_dims[vars[None, :] > mus[:, None]**2] = np.nan
 plt.figure()
 plt.imshow(all_dims, cmap = 'viridis', aspect = 'auto', vmin = 0.95*np.nanmax(all_dims),
-           vmax = np.nanmax(all_dims), extent = (vars[0], vars[-1], mus[-1], mus[0]))
+           vmax = np.nanmax(all_dims), extent = (vars[0]-dv, vars[-1]+dv, mus[-1]+dm, mus[0]-dm))
 plt.plot(get_opt_dim_var(mus, S/mus, N), mus, 'k-')
 plt.xlabel('variance')
 plt.ylabel('mean')
